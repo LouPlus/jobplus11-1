@@ -2,7 +2,7 @@ from flask import Blueprint,render_template
 from flask import flash,redirect,url_for
 from flask_login import login_user,logout_user,login_required
 from jobplus.forms import LoginForm,RegisterForm
-
+from jobplus.models import User
 
 front = Blueprint('front',__name__)
 
