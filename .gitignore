@@ -1,5 +1,7 @@
 *.swap
 
+migrations/
+
 venv/
 
 __pycache__

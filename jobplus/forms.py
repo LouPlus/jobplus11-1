@@ -4,7 +4,9 @@ from wtforms.validators import Length,Email,EqualTo,DataRequired
 from jobplus.models import db,User
 
 class RegisterForm(FlaskForm):
-	username = StringField('用户名',validators=[DataRequired(),Length(3,24)])
+
+	name = StringField('用户名',validators=[DataRequired(),Length(3,24)])
+
 	email = StringField('邮箱',validators=[DataRequired(),Email()])
 	password = PasswordField('密码',validators=[DataRequired(),Length(6,24)])
 	repeat_password = PasswordField('重复密码',validators=[DataRequired(),EqualTo('password')])
@@ -12,7 +14,9 @@ class RegisterForm(FlaskForm):
 
 	def create_user(self):
 		user = User()
-		user.username = self.username.data
+
+		user.name = self.name.data
+
 		user.email = self.email.data
 		user.password = self.password.data
 		db.session.add(user)
@@ -22,7 +26,11 @@ class RegisterForm(FlaskForm):
 	
 	def create_company_user(self):
 		user = User()
-		user.username = self.username.data
+
+		user.name = self.name.data
+
+
+
 		user.email = self.email.data
 		user.password = self.password.data
 		user.role = 22
@@ -31,7 +39,9 @@ class RegisterForm(FlaskForm):
 		return user
 	
 	def validate_username(self,field):
-		if User.query.filter_by(username=field.data).first():
+
+		if User.query.filter_by(name=field.data).first():
+
 			raise ValidationError('用户名已存在')
 	
 	def validate_email(self,field):
