@@ -47,10 +47,9 @@ class User(Base, UserMixin):
     def is_company(self):
         return self.role == self.ROLE_COMPANY
 
-class Company(Base):
 
-    __tablename__ = 'company'
-    
+# 公司详情表的映射类
+class Company(Base):
     id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key=True)
     name = db.Column(db.String(256))
     logo = db.Column(db.String(32))
@@ -59,15 +58,10 @@ class Company(Base):
     user = db.relationship('User',uselist=False,backref='company')
 
 
+# 用户简历表的映射类
 class Resume(Base):
-    __tablename__ = 'resume'
-
     id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key=True)
     name = db.Column(db.String(64))
-    
     work_experience = db.Column(db.SmallInteger)
     edu_experience = db.Column(db.SmallInteger)
     user = db.relationship('User',uselist=False,backref='resume')
-
-
-
