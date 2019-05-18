@@ -46,3 +46,28 @@ class User(Base, UserMixin):
     @property   # 判断用户是不是企业用户
     def is_company(self):
         return self.role == self.ROLE_COMPANY
+
+class Company(Base):
+
+    __tablename__ = 'company'
+    
+    id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key=True)
+    name = db.Column(db.String(256))
+    logo = db.Column(db.String(32))
+    web = db.Column(db.String(64))
+    description = db.Column(db.String(512))
+    user = db.relationship('User',uselist=False,backref='company')
+
+
+class Resume(Base):
+    __tablename__ = 'resume'
+
+    id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key=True)
+    name = db.Column(db.String(64))
+    
+    work_experience = db.Column(db.SmallInteger)
+    edu_experience = db.Column(db.SmallInteger)
+    user = db.relationship('User',uselist=False,backref='resume')
+
+
+
