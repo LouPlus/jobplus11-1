@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,BooleanField,ValidationError
+from wtforms import (StringField, PasswordField, SubmitField, BooleanField,
+        ValidationError, IntegerField)
 from wtforms.validators import Length,Email,EqualTo,DataRequired
-from jobplus.models import db,User
+from jobplus.models import db,User,Resume,Company
+from flask_login import current_user
 
 class RegisterForm(FlaskForm):
 
@@ -14,9 +16,7 @@ class RegisterForm(FlaskForm):
 
         def create_user(self):
                 user = User()
-
                 user.name = self.name.data
-
                 user.email = self.email.data
                 user.password = self.password.data
                 db.session.add(user)
@@ -26,11 +26,7 @@ class RegisterForm(FlaskForm):
         
         def create_company_user(self):
                 user = User()
-
                 user.name = self.name.data
-
-
-
                 user.email = self.email.data
                 user.password = self.password.data
                 user.role = 22
@@ -63,3 +59,21 @@ class LoginForm(FlaskForm):
                 user = User.query.filter_by(email=self.email.data).first()
                 if user and not user.check_password(field.data):
                         raise ValidationError('密码错误')
+
+class UserProfileForm(FlaskForm):
+        
+        name = StringField('简历名称')
+        work_experience= IntegerField('工作经验')
+        edu_experience = IntegerField('教育经验')
+        submit = SubmitField('保存')
+
+        def create_resume(self):
+            resume = Resume()
+            resume.id = current_user.id
+            self.populate_obj(resume)
+            #resume.name = self.name.data
+            #resume.work_experience = self.work_experience.data
+            #resume.edu_experience = self.edu_experience.data
+            db.session.add(resume)
+            db.session.commit()
+            return resume

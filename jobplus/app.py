@@ -18,7 +18,11 @@ def register_extensions(app):
 
 def register_blueprints(app):
         from .handlers import front
+        from .handlers import user
+        from .handlers import company
         app.register_blueprint(front)
+        app.register_blueprint(user)
+        app.register_blueprint(company)
 
 
 def create_app(config):
