@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_form %}
+
+{% block title %}
+user_profile
+{% endblock %}
+
+{% block body %}
+  <div class="form">
+  <h2>个人信息</h2>
+  {{ render_form(form,url_for('user.edit_profile')) }}
+  </div>
+{% endblock %}

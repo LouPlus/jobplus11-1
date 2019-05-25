@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+company_profile
+{% endblock %}
+
+{% block body %}
+  <h2>公司信息</h2>
+  <a href='{{url_for('company.edit_profile')}}' ><button type='button' class='btn btn-success'>编辑信息</button></a>
+  {% if current_user.company %}
+  <h4>公司名称</h4>
+  <h5>{{ company.name }} </h5>
+  <h4>logo</h4>
+  <h5>{{ company.logo }}</h5>
+  <h4>网站</h4>
+  <h5>{{ company.web }}</h5>
+  <h4>简介</h4>
+  <h5>{{ company.description }}</h5>
+  {% else %}
+  <h3>暂无信息</h3>
+  {% endif %}
+  </br>
+{% endblock %}
