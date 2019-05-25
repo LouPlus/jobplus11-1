@@ -54,7 +54,7 @@ class Company(Base):
     name = db.Column(db.String(256))
     logo = db.Column(db.String(32))
     web = db.Column(db.String(64))
-    description = db.Column(db.String(512))
+    description = db.Column(db.Text)
     user = db.relationship('User',uselist=False,backref='company')
 
 
@@ -62,6 +62,6 @@ class Company(Base):
 class Resume(Base):
     id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key=True)
     name = db.Column(db.String(64))
-    work_experience = db.Column(db.SmallInteger)
-    edu_experience = db.Column(db.SmallInteger)
+    work_experience = db.Column(db.Text)
+    edu_experience = db.Column(db.Text)
     user = db.relationship('User',uselist=False,backref='resume')

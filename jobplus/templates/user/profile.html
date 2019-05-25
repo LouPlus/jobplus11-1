@@ -1,13 +1,21 @@
 {% extends "base.html" %}
-{% from "macros.html" import render_form %}
 
 {% block title %}
 user_profile
 {% endblock %}
 
 {% block body %}
-  <div class="form">
   <h2>个人信息</h2>
-  {{ render_form(form,url_for('user.profile')) }}
-  </div>
+  <a href='{{url_for('user.edit_profile')}}' ><button type='button' class='btn btn-success'>编辑信息</button></a>
+  {% if current_user.resume %}
+  <h4>简历名称</h4>
+  <h5>{{ resume.name }} </h5>
+  <h4>工作经历</h4>
+  <h5>{{ resume.work_experience }}</h5>
+  <h4>教育经历</h4>
+  <h5>{{ resume.edu_experience }}</h5>
+  {% else %}
+  <h3>暂无信息</h3>
+  {% endif %}
+  </br>
 {% endblock %}

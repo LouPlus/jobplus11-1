@@ -37,7 +37,7 @@
                               {% if current_user.is_user %}
                               <li><a href="{{url_for('user.profile')}}">个人主页</a></li>
                               {% elif current_user.is_company %}
-                              <li><a href="{{url_for('company.profile')}}">个人主页</a></li>
+                              <li><a href="{{url_for('company.profile')}}">公司主页</a></li>
                               {% else  %}
                               <li><a href="{{url_for('admin.index')}}">控制台</a></li>
                               {% endif %}

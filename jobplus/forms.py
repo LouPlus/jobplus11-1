@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, BooleanField,
-        ValidationError, IntegerField)
+        ValidationError, IntegerField,TextAreaField)
 from wtforms.validators import Length,Email,EqualTo,DataRequired
 from jobplus.models import db,User,Resume,Company
 from flask_login import current_user
@@ -16,24 +16,12 @@ class RegisterForm(FlaskForm):
 
         def create_user(self):
                 user = User()
-                user.name = self.name.data
-                user.email = self.email.data
-                user.password = self.password.data
-                db.session.add(user)
-                db.session.commit()
+                self.populate_obj(user)
+                #user.name = self.name.data
+                #user.email = self.email.data
+                #user.password = self.password.data
                 return user
 
-        
-        def create_company_user(self):
-                user = User()
-                user.name = self.name.data
-                user.email = self.email.data
-                user.password = self.password.data
-                user.role = 22
-                db.session.add(user)
-                db.session.commit()
-                return user
-        
         def validate_username(self,field):
 
                 if User.query.filter_by(name=field.data).first():
@@ -63,8 +51,8 @@ class LoginForm(FlaskForm):
 class UserProfileForm(FlaskForm):
         
         name = StringField('简历名称')
-        work_experience= IntegerField('工作经验')
-        edu_experience = IntegerField('教育经验')
+        work_experience= TextAreaField('工作经历')
+        edu_experience = TextAreaField('教育经历')
         submit = SubmitField('保存')
 
         def create_resume(self):
@@ -77,3 +65,29 @@ class UserProfileForm(FlaskForm):
             db.session.add(resume)
             db.session.commit()
             return resume
+
+        def update_resume(self,resume):
+            self.populate_obj(resume)
+            db.session.add(resume)
+            db.session.commit()
+
+class CompanyProfileForm(FlaskForm):
+        
+        name = StringField('公司名称')
+        logo = StringField('logo')
+        web = StringField('网站')
+        description = TextAreaField('公司简介')
+        submit = SubmitField('提交')
+
+        def create_company(self):
+            company = Company()
+            company.id = current_user.id
+            self.populate_obj(company)
+            db.session.add(company)
+            db.session.commit()
+            return company
+
+        def update_company(self,company):
+            self.populate_obj(company)
+            db.session.add(company)
+            db.session.commit()
